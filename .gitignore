@@ -1,0 +1,7 @@
+*.iml
+*.idea
+target
+.directory
+.DS_Store
+LOG_FILE_*
+.attach_pid*
