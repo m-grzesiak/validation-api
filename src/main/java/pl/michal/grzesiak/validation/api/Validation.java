@@ -25,11 +25,4 @@ public interface Validation<T> {
             }
         };
     }
-
-    default Validation<T> or(Validation<T> otherValidation) {
-        return objectToValidate -> {
-            ValidationResult validationResult = this.validate(objectToValidate);
-            return validationResult.isValid() ? validationResult : otherValidation.validate(objectToValidate);
-        };
-    }
 }

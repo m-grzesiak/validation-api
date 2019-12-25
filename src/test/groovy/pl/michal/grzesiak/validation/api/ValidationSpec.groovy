@@ -46,22 +46,6 @@ class ValidationSpec extends Specification {
 	}
 
 	@Unroll
-	def "\'OR\' operation should return \'#expectedValidationResult\' when the first rule returns \'#hasFirstRulePassed\' and the second: \'#hasSecondRulePassed\'"() {
-		given:
-			def validation = ruleShouldPass(hasFirstRulePassed) | ruleShouldPass(hasSecondRulePassed)
-		when:
-			def validationResult = validation.validate(TEST_PHRASE)
-		then:
-			validationResult.isValid() == expectedValidationResult
-		where:
-			hasFirstRulePassed | hasSecondRulePassed || expectedValidationResult
-			true               | true                || true
-			true               | false               || true
-			false              | false               || false
-			false              | true                || true
-	}
-
-	@Unroll
 	def "\'AND\' operation should return \'#expectedValidationResult\' when the first rule returns \'#hasFirstRulePassed\' and the second: \'#hasSecondRulePassed\'"() {
 		given:
 			def validation = ruleShouldPass(hasFirstRulePassed) & ruleShouldPass(hasSecondRulePassed)
