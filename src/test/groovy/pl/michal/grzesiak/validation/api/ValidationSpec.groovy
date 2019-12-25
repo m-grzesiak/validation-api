@@ -1,13 +1,9 @@
 package pl.michal.grzesiak.validation.api
 
-
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.function.Predicate
-
 import static Validation.rule
-import static java.util.Objects.nonNull
 
 class ValidationSpec extends Specification {
 
@@ -31,20 +27,6 @@ class ValidationSpec extends Specification {
 			!validationResult.isValid()
 	}
 
-	def "\'AND\' operation - should not execute the second validation when the object to validate is null"() {
-		given:
-			def firstRuleThatChecksNull = rule({ object -> nonNull(object) }, "error")
-		and:
-			def secondRule = Mock(Validation)
-		and:
-			def validation = firstRuleThatChecksNull & secondRule
-		when:
-			def validationResult = validation.validate(null)
-		then:
-			!validationResult.isValid()
-			0 * secondRule.validate(_)
-	}
-
 	@Unroll
 	def "\'AND\' operation should return \'#expectedValidationResult\' when the first rule returns \'#hasFirstRulePassed\' and the second: \'#hasSecondRulePassed\'"() {
 		given:
@@ -61,7 +43,7 @@ class ValidationSpec extends Specification {
 			false              | false               || false
 	}
 
-	private Validation<String> ruleShouldPass(boolean shouldPass) {
-		rule(Mock(Predicate) { it.test(TEST_PHRASE) >> shouldPass }, "error message")
+	private static Validation<String> ruleShouldPass(boolean shouldPass) {
+		rule({ object -> shouldPass }, "error message")
 	}
 }

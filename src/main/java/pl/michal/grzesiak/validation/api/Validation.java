@@ -17,12 +17,8 @@ public interface Validation<T> {
     default Validation<T> and(Validation<T> otherValidation) {
         return objectToValidate -> {
             ValidationResult validationResult = this.validate(objectToValidate);
-            if (objectToValidate != null) {
-                ValidationResult otherValidationResult = otherValidation.validate(objectToValidate);
-                return validationResult.concat(otherValidationResult);
-            } else {
-                return validationResult;
-            }
+            ValidationResult otherValidationResult = otherValidation.validate(objectToValidate);
+            return validationResult.concat(otherValidationResult);
         };
     }
 }
