@@ -4,6 +4,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static Validation.rule
+import static java.util.Objects.nonNull
 
 class ValidationSpec extends Specification {
 
@@ -25,6 +26,20 @@ class ValidationSpec extends Specification {
 			def validationResult = rule.validate(TEST_PHRASE)
 		then:
 			!validationResult.isValid()
+	}
+
+	def "\'AND\' operation - should not execute the second validation when the object to validate is null"() {
+		given:
+			def firstRuleThatChecksNull = rule({ object -> nonNull(object) }, "error")
+		and:
+			def secondRule = Mock(Validation)
+		and:
+			def validation = firstRuleThatChecksNull & secondRule
+		when:
+			def validationResult = validation.validate(null)
+		then:
+			!validationResult.isValid()
+			0 * secondRule.validate(_)
 	}
 
 	@Unroll
