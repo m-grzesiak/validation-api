@@ -1,6 +1,6 @@
 # validation-api
 The `rule` is a basic validation unit, which contains a predicate and an error message - the second one is returned if
-validation failed. In order to create a new rule, you have to use the `Validation.rule()` method and pass necessary parameters.
+validation fails. In order to create a new rule, you need to use the `Validation.rule()` method and pass necessary parameters.
 
 ```java
 Predicate<String> hasMoreThanTenSigns = word -> word.length() > 10;
@@ -24,7 +24,7 @@ Validation.rule(hasMoreThanTenSigns, "word has not more than 10 signs")
 ```
 
 ### The rules chaining
-If you have a more complicated validation logic, you can join as rules as you need into one chain by invoking the `and()` method.
+If you have a more complicated validation logic, you can join as many rules as you need into one chain by invoking the `and()` method.
 Remember that each rule accepts `Predicate<T>` - as you surely know, this interface offers a couple of usable methods
 like `or()` and `not()` - you can use them to create a more advanced rule.
 
@@ -40,7 +40,7 @@ ValidationResult validationResult = isNotEmpty.and(startsWithL)
 Remember that `ValidationResult` will aggregate all errors which will occurred during validation.
 
 ### Merging different validation results
-When you validate the different type of objects, you can merge their results and handle in one way, by invoking `concat()` method.
+When you validate different types of objects, you can merge their results and handle in one way, by invoking `concat()` method.
 
 ```java
 ValidationResult validationResult1 = isNotEmpty.and(startsWithL).validate("Lee");
